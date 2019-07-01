@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_PA_Report extends PO implements I_PA_Report, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170819L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_PA_Report (Properties ctx, int PA_Report_ID, String trxName)
@@ -40,8 +40,6 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
         {
 			setC_AcctSchema_ID (0);
 			setC_Calendar_ID (0);
-			setListSources (null);
-			setListTrx (null);
 			setName (null);
 			setPA_ReportColumnSet_ID (0);
 			setPA_Report_ID (0);

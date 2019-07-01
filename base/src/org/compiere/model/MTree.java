@@ -977,17 +977,18 @@ public class MTree extends X_AD_Tree
 		//	Load for Custom Tree
 		else if(getTreeType().equals(TREETYPE_CustomTree)) {
 			boolean base = Env.isBaseLanguage(p_ctx, fromClause);
+			boolean translation = !base && MTable.hasTranslation(fromClause);
 			sourceTable = "t";
 			String recordClause = "";
-			if (base){
+			if (!translation){
 				sqlNode.append("SELECT t." + fromClause + "_ID, ")
-					.append("t.Name, t.Description, t.IsSummary, " + color + " AS Action ")
+					.append("COALESCE(t.Name, '') AS Name, COALESCE(t.Description, '') AS Description, t.IsSummary, " + color + " AS Action ")
 					.append(recordClause.length() > 0 ? ", " + recordClause : "")
 					.append(" FROM ").append(fromClause).append(" AS t ")
 					;
 			} else {
 				sqlNode.append("SELECT t." + fromClause + "_ID, ")
-					.append("COALESCE(m.Name, t.Name) AS Name, COALESCE(m.Description, t.Description) AS Description, t.IsSummary,  ")
+					.append("COALESCE(tt.Name, t.Name, '') AS Name, COALESCE(tt.Description, t.Description, '') AS Description, t.IsSummary,  ")
 					.append( color + " AS Action ")
 					.append(recordClause.length() > 0 ? ", " + recordClause : "")
 					.append(" FROM ").append(fromClause).append(" AS t ")
@@ -1010,7 +1011,7 @@ public class MTree extends X_AD_Tree
 			if (containsValueColumn(fromClause) ) {
 				sqlNode.append(", t.Value"); //@Trifon
 			}
-			sqlNode.append(" FROM ").append(fromClause).append(" AS t ");
+			sqlNode.append(" FROM ").append(fromClause).append(" t ");
 			if (!isTreeEditable)
 				sqlNode.append(" WHERE t.IsActive='Y'");
 		}

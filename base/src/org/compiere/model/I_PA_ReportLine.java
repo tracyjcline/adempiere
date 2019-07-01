@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.2
  */
 public interface I_PA_ReportLine 
 {
@@ -99,6 +99,15 @@ public interface I_PA_ReportLine
 	  * Optional short description of the record
 	  */
 	public String getDescription();
+
+    /** Column name FixedPercentage */
+    public static final String COLUMNNAME_FixedPercentage = "FixedPercentage";
+
+	/** Set Fixed Percentage	  */
+	public void setFixedPercentage (BigDecimal FixedPercentage);
+
+	/** Get Fixed Percentage	  */
+	public BigDecimal getFixedPercentage();
 
     /** Column name GL_Budget_ID */
     public static final String COLUMNNAME_GL_Budget_ID = "GL_Budget_ID";
@@ -241,6 +250,15 @@ public interface I_PA_ReportLine
 	  */
 	public String getPAPeriodType();
 
+    /** Column name PA_ReportLine_ID */
+    public static final String COLUMNNAME_PA_ReportLine_ID = "PA_ReportLine_ID";
+
+	/** Set Report Line	  */
+	public void setPA_ReportLine_ID (int PA_ReportLine_ID);
+
+	/** Get Report Line	  */
+	public int getPA_ReportLine_ID();
+
     /** Column name PA_ReportLineSet_ID */
     public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";
 
@@ -251,15 +269,6 @@ public interface I_PA_ReportLine
 	public int getPA_ReportLineSet_ID();
 
 	public org.compiere.model.I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException;
-
-    /** Column name PA_ReportLine_ID */
-    public static final String COLUMNNAME_PA_ReportLine_ID = "PA_ReportLine_ID";
-
-	/** Set Report Line	  */
-	public void setPA_ReportLine_ID (int PA_ReportLine_ID);
-
-	/** Get Report Line	  */
-	public int getPA_ReportLine_ID();
 
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";
@@ -273,6 +282,15 @@ public interface I_PA_ReportLine
 	  * The type of posted amount for the transaction
 	  */
 	public String getPostingType();
+
+    /** Column name ReportLineStyle */
+    public static final String COLUMNNAME_ReportLineStyle = "ReportLineStyle";
+
+	/** Set Report Line Style	  */
+	public void setReportLineStyle (String ReportLineStyle);
+
+	/** Get Report Line Style	  */
+	public String getReportLineStyle();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
@@ -302,19 +320,6 @@ public interface I_PA_ReportLine
 	  */
 	public int getTabLevel();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name UnderlineStrokeType */
     public static final String COLUMNNAME_UnderlineStrokeType = "UnderlineStrokeType";
 
@@ -340,21 +345,16 @@ public interface I_PA_ReportLine
 	  */
 	public int getUpdatedBy();
 
-    /** Column name fixedpercentage */
-    public static final String COLUMNNAME_fixedpercentage = "fixedpercentage";
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
 
-	/** Set fixedpercentage	  */
-	public void setfixedpercentage (BigDecimal fixedpercentage);
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
 
-	/** Get fixedpercentage	  */
-	public BigDecimal getfixedpercentage();
-
-    /** Column name reportlinestyle */
-    public static final String COLUMNNAME_reportlinestyle = "reportlinestyle";
-
-	/** Set reportlinestyle	  */
-	public void setreportlinestyle (String reportlinestyle);
-
-	/** Get reportlinestyle	  */
-	public String getreportlinestyle();
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

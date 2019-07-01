@@ -42,6 +42,18 @@ public class ReportExportHandler {
 		load();
 	}
 	
+	/**
+	 * Constructor from report view
+	 * @param ctx
+	 * @param reportView
+	 */
+	public ReportExportHandler(Properties ctx, MReportView reportView) {
+		this.ctx = ctx;
+		this.reportView = reportView;
+		//	Load class
+		load();
+	}
+	
 	/**	Report view		*/
 	private MReportView reportView;
 	/**	Report Engine	*/
@@ -52,7 +64,8 @@ public class ReportExportHandler {
 	private ReportExport reportExport;
 	/**	Static Logger	*/
 	private static CLogger	log	= CLogger.getCLogger (ReportExportHandler.class);
-	
+	/**	Last Message	*/
+	private String lastMessage;
 	
 	/**
 	 * Get Class from device type, used for handler
@@ -135,19 +148,70 @@ public class ReportExportHandler {
 	 * @param file
 	 * @return
 	 */
+	@Deprecated
 	public boolean exportToFile(String exportName, File file) {
-		
+		return exportTo(exportName, file);
+	}
+	
+	/**
+	 * Export to service or file based on default action
+	 * @param exportName
+	 * @param file
+	 * @param defaultAction
+	 * @return
+	 */
+	public boolean exportTo(String exportName, File file) {
 		if(reportExport == null) {
 			return false;
 		}
+		boolean result = false;
 		//	
-		for(AbstractExportFormat exportFormat : getExportFormatList()) {
-			if(exportFormat.getName().equals(exportName)) {
-				return exportFormat.exportToFile(file);
+		for(AbstractExportFormat exporter : getExportFormatList()) {
+			if(exporter.getName().equals(exportName)) {
+				result = exporter.exportTo(file);
+				lastMessage = exporter.getMessage();
 			}
 		}
 		//	Default
-		return false;
+		return result;
+	}
+	
+	/**
+	 * Get exporter from name
+	 * @param exportName
+	 * @return
+	 */
+	public AbstractExportFormat getExporter(String exportName) {
+		for(AbstractExportFormat exporter : getExportFormatList()) {
+			if(exporter.getName().equals(exportName)) {
+				return exporter;
+			}
+		}
+		//	Default
+		return null;
+	}
+	
+	/**
+	 * Get exporter from extension
+	 * @param exportExtension
+	 * @return
+	 */
+	public AbstractExportFormat getExporterFromExtension(String exportExtension) {
+		for(AbstractExportFormat exporter : getExportFormatList()) {
+			if(exporter.getExtension().equals(exportExtension)) {
+				return exporter;
+			}
+		}
+		//	Default
+		return null;
+	}
+	
+	/**
+	 * Get Last Message
+	 * @return
+	 */
+	public String getLastMessage() {
+		return lastMessage;
 	}
 	
 }	//	ReportExportHandler

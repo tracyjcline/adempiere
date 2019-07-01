@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for HR_ProcessReportTemplate
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReportTemplate, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180131L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_HR_ProcessReportTemplate (Properties ctx, int HR_ProcessReportTemplate_ID, String trxName)
@@ -143,8 +143,8 @@ public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReport
 		return ii.intValue();
 	}
 
-	/** Set Payroll Process Report Template ID.
-		@param HR_ProcessReportTemplate_ID Payroll Process Report Template ID	  */
+	/** Set Payroll Process Report Template.
+		@param HR_ProcessReportTemplate_ID Payroll Process Report Template	  */
 	public void setHR_ProcessReportTemplate_ID (int HR_ProcessReportTemplate_ID)
 	{
 		if (HR_ProcessReportTemplate_ID < 1) 
@@ -153,8 +153,8 @@ public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReport
 			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportTemplate_ID, Integer.valueOf(HR_ProcessReportTemplate_ID));
 	}
 
-	/** Get Payroll Process Report Template ID.
-		@return Payroll Process Report Template ID	  */
+	/** Get Payroll Process Report Template.
+		@return Payroll Process Report Template	  */
 	public int getHR_ProcessReportTemplate_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ProcessReportTemplate_ID);

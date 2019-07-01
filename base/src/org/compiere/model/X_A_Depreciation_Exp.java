@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Exp
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Exp (Properties ctx, int A_Depreciation_Exp_ID, String trxName)
@@ -204,15 +204,18 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 		return ii.intValue();
 	}
 
-	/** Set Asset Cost.
-		@param A_Asset_Cost Asset Cost	  */
+	/** Set Fixed Asset Cost.
+		@param A_Asset_Cost 
+		Cost of acquisition of the Fixed Asset
+	  */
 	public void setA_Asset_Cost (BigDecimal A_Asset_Cost)
 	{
 		set_Value (COLUMNNAME_A_Asset_Cost, A_Asset_Cost);
 	}
 
-	/** Get Asset Cost.
-		@return Asset Cost	  */
+	/** Get Fixed Asset Cost.
+		@return Cost of acquisition of the Fixed Asset
+	  */
 	public BigDecimal getA_Asset_Cost () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Asset_Cost);
@@ -268,9 +271,9 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
 			.getPO(getA_Asset_ID(), get_TrxName());	}
 
-	/** Set Asset.
+	/** Set Fixed Asset.
 		@param A_Asset_ID 
-		Asset used internally or by customers
+		Fixed Asset used internally or by customers
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
@@ -280,8 +283,8 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 			set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
-	/** Get Asset.
-		@return Asset used internally or by customers
+	/** Get Fixed Asset.
+		@return Fixed Asset used internally or by customers
 	  */
 	public int getA_Asset_ID () 
 	{
@@ -452,34 +455,6 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 		return ii.intValue();
 	}
 
-	public I_C_ValidCombination getDR_Account() throws RuntimeException
-    {
-		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
-			.getPO(getDR_Account_ID(), get_TrxName());	}
-
-	/** Set Account (debit).
-		@param DR_Account_ID 
-		Account used
-	  */
-	public void setDR_Account_ID (int DR_Account_ID)
-	{
-		if (DR_Account_ID < 1) 
-			set_Value (COLUMNNAME_DR_Account_ID, null);
-		else 
-			set_Value (COLUMNNAME_DR_Account_ID, Integer.valueOf(DR_Account_ID));
-	}
-
-	/** Get Account (debit).
-		@return Account used
-	  */
-	public int getDR_Account_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DR_Account_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Account Date.
 		@param DateAcct 
 		Accounting Date
@@ -512,6 +487,34 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	public I_C_ValidCombination getDR_Account() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getDR_Account_ID(), get_TrxName());	}
+
+	/** Set Account (debit).
+		@param DR_Account_ID 
+		Account used
+	  */
+	public void setDR_Account_ID (int DR_Account_ID)
+	{
+		if (DR_Account_ID < 1) 
+			set_Value (COLUMNNAME_DR_Account_ID, null);
+		else 
+			set_Value (COLUMNNAME_DR_Account_ID, Integer.valueOf(DR_Account_ID));
+	}
+
+	/** Get Account (debit).
+		@return Account used
+	  */
+	public int getDR_Account_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DR_Account_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Expense.
@@ -664,23 +667,6 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 		return false;
 	}
 
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
-	}
-
 	/** Set Usable Life - Months.
 		@param UseLifeMonths 
 		Months of the usable life of the asset
@@ -716,5 +702,22 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

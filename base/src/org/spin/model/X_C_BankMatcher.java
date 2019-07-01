@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for C_BankMatcher
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_BankMatcher extends PO implements I_C_BankMatcher, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180815L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_C_BankMatcher (Properties ctx, int C_BankMatcher_ID, String trxName)
@@ -100,8 +100,8 @@ public class X_C_BankMatcher extends PO implements I_C_BankMatcher, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Bank Matcher ID.
-		@param C_BankMatcher_ID Bank Matcher ID	  */
+	/** Set Bank Matcher.
+		@param C_BankMatcher_ID Bank Matcher	  */
 	public void setC_BankMatcher_ID (int C_BankMatcher_ID)
 	{
 		if (C_BankMatcher_ID < 1) 
@@ -110,8 +110,8 @@ public class X_C_BankMatcher extends PO implements I_C_BankMatcher, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_C_BankMatcher_ID, Integer.valueOf(C_BankMatcher_ID));
 	}
 
-	/** Get Bank Matcher ID.
-		@return Bank Matcher ID	  */
+	/** Get Bank Matcher.
+		@return Bank Matcher	  */
 	public int getC_BankMatcher_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankMatcher_ID);

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Info_Lic
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.2
  */
 public interface I_A_Asset_Info_Lic 
 {
@@ -40,6 +40,30 @@ public interface I_A_Asset_Info_Lic
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name A_Asset_ID */
+    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
+
+	/** Set Fixed Asset.
+	  * Fixed Asset used internally or by customers
+	  */
+	public void setA_Asset_ID (int A_Asset_ID);
+
+	/** Get Fixed Asset.
+	  * Fixed Asset used internally or by customers
+	  */
+	public int getA_Asset_ID();
+
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
+
+    /** Column name A_Asset_Info_Lic_ID */
+    public static final String COLUMNNAME_A_Asset_Info_Lic_ID = "A_Asset_Info_Lic_ID";
+
+	/** Set A_Asset_Info_Lic_ID	  */
+	public void setA_Asset_Info_Lic_ID (int A_Asset_Info_Lic_ID);
+
+	/** Get A_Asset_Info_Lic_ID	  */
+	public int getA_Asset_Info_Lic_ID();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -61,30 +85,6 @@ public interface I_A_Asset_Info_Lic
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name A_Asset_ID */
-    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
-
-	/** Set Asset.
-	  * Asset used internally or by customers
-	  */
-	public void setA_Asset_ID (int A_Asset_ID);
-
-	/** Get Asset.
-	  * Asset used internally or by customers
-	  */
-	public int getA_Asset_ID();
-
-	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
-
-    /** Column name A_Asset_Info_Lic_ID */
-    public static final String COLUMNNAME_A_Asset_Info_Lic_ID = "A_Asset_Info_Lic_ID";
-
-	/** Set A_Asset_Info_Lic_ID	  */
-	public void setA_Asset_Info_Lic_ID (int A_Asset_Info_Lic_ID);
-
-	/** Get A_Asset_Info_Lic_ID	  */
-	public int getA_Asset_Info_Lic_ID();
 
     /** Column name A_Issuing_Agency */
     public static final String COLUMNNAME_A_Issuing_Agency = "A_Issuing_Agency";
@@ -186,19 +186,6 @@ public interface I_A_Asset_Info_Lic
 	/** Get Description	  */
 	public String getText();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -214,4 +201,17 @@ public interface I_A_Asset_Info_Lic
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

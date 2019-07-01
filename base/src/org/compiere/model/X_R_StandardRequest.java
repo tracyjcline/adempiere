@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_StandardRequest
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_R_StandardRequest extends PO implements I_R_StandardRequest, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171017L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_R_StandardRequest (Properties ctx, int R_StandardRequest_ID, String trxName)
@@ -39,9 +39,13 @@ public class X_R_StandardRequest extends PO implements I_R_StandardRequest, I_Pe
       /** if (R_StandardRequest_ID == 0)
         {
 			setConfidentialTypeEntry (null);
+// A
 			setDueType (null);
+// 7
 			setPriority (null);
+// 5
 			setR_Category_ID (0);
+			setR_RequestType_ID (0);
 			setR_StandardRequest_ID (0);
 			setSummary (null);
         } */
@@ -295,9 +299,9 @@ public class X_R_StandardRequest extends PO implements I_R_StandardRequest, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_R_Request getR_RequestRelated() throws RuntimeException
+	public org.compiere.model.I_R_StandardRequest getR_RequestRelated() throws RuntimeException
     {
-		return (org.compiere.model.I_R_Request)MTable.get(getCtx(), org.compiere.model.I_R_Request.Table_Name)
+		return (org.compiere.model.I_R_StandardRequest)MTable.get(getCtx(), org.compiere.model.I_R_StandardRequest.Table_Name)
 			.getPO(getR_RequestRelated_ID(), get_TrxName());	}
 
 	/** Set Related Request.

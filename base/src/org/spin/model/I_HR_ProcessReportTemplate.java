@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_ProcessReportTemplate
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.2
  */
 public interface I_HR_ProcessReportTemplate 
 {
@@ -121,10 +121,10 @@ public interface I_HR_ProcessReportTemplate
     /** Column name HR_ProcessReportTemplate_ID */
     public static final String COLUMNNAME_HR_ProcessReportTemplate_ID = "HR_ProcessReportTemplate_ID";
 
-	/** Set Payroll Process Report Template ID	  */
+	/** Set Payroll Process Report Template	  */
 	public void setHR_ProcessReportTemplate_ID (int HR_ProcessReportTemplate_ID);
 
-	/** Get Payroll Process Report Template ID	  */
+	/** Get Payroll Process Report Template	  */
 	public int getHR_ProcessReportTemplate_ID();
 
     /** Column name IsActive */

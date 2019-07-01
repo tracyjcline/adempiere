@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_CostDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.2
  */
 public interface I_M_CostDetail 
 {
@@ -148,21 +148,6 @@ public interface I_M_CostDetail
 
 	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException;
 
-    /** Column name C_ProjectIssue_ID */
-    public static final String COLUMNNAME_C_ProjectIssue_ID = "C_ProjectIssue_ID";
-
-	/** Set Project Issue.
-	  * Project Issues (Material, Labor)
-	  */
-	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID);
-
-	/** Get Project Issue.
-	  * Project Issues (Material, Labor)
-	  */
-	public int getC_ProjectIssue_ID();
-
-	public org.compiere.model.I_C_ProjectIssue getC_ProjectIssue() throws RuntimeException;
-
     /** Column name CostAdjustment */
     public static final String COLUMNNAME_CostAdjustment = "CostAdjustment";
 
@@ -253,6 +238,21 @@ public interface I_M_CostDetail
 	  * Indicates how Costs will be calculated
 	  */
 	public String getCostingMethod();
+
+    /** Column name C_ProjectIssue_ID */
+    public static final String COLUMNNAME_C_ProjectIssue_ID = "C_ProjectIssue_ID";
+
+	/** Set Project Issue.
+	  * Project Issues (Material, Labor)
+	  */
+	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID);
+
+	/** Get Project Issue.
+	  * Project Issues (Material, Labor)
+	  */
+	public int getC_ProjectIssue_ID();
+
+	public org.compiere.model.I_C_ProjectIssue getC_ProjectIssue() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -527,6 +527,36 @@ public interface I_M_CostDetail
 
 	public org.compiere.model.I_M_InventoryLine getM_InventoryLine() throws RuntimeException;
 
+    /** Column name M_MatchInv_ID */
+    public static final String COLUMNNAME_M_MatchInv_ID = "M_MatchInv_ID";
+
+	/** Set Match Invoice.
+	  * Match Shipment/Receipt to Invoice
+	  */
+	public void setM_MatchInv_ID (int M_MatchInv_ID);
+
+	/** Get Match Invoice.
+	  * Match Shipment/Receipt to Invoice
+	  */
+	public int getM_MatchInv_ID();
+
+	public org.compiere.model.I_M_MatchInv getM_MatchInv() throws RuntimeException;
+
+    /** Column name M_MatchPO_ID */
+    public static final String COLUMNNAME_M_MatchPO_ID = "M_MatchPO_ID";
+
+	/** Set Match PO.
+	  * Match Purchase Order to Shipment/Receipt and Invoice
+	  */
+	public void setM_MatchPO_ID (int M_MatchPO_ID);
+
+	/** Get Match PO.
+	  * Match Purchase Order to Shipment/Receipt and Invoice
+	  */
+	public int getM_MatchPO_ID();
+
+	public org.compiere.model.I_M_MatchPO getM_MatchPO() throws RuntimeException;
+
     /** Column name M_MovementLine_ID */
     public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
 
@@ -670,19 +700,6 @@ public interface I_M_CostDetail
 	  */
 	public int getSeqNo();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -699,37 +716,16 @@ public interface I_M_CostDetail
 	  */
 	public int getUpdatedBy();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
 
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
 
-	/** Column name M_MatchInv_ID */
-	public static final String COLUMNNAME_M_MatchInv_ID = "M_MatchInv_ID";
-
-	/** Set Match Invoice.
-	 * Match Shipment/Receipt to Invoice
-	 */
-	public void setM_MatchInv_ID (int M_MatchInv_ID);
-
-	/** Get Match Invoice.
-	 * Match Shipment/Receipt to Invoice
-	 */
-	public int getM_MatchInv_ID();
-
-
-
-
-	/** Column name M_MatchPO_ID */
-	public static final String COLUMNNAME_M_MatchPO_ID = "M_MatchPO_ID";
-
-	/** Set Match Invoice.
-	 * Match Shipment/Receipt to Invoice
-	 */
-	public void setM_MatchPO_ID (int M_MatchPO_ID);
-
-	/** Get Match Invoice.
-	 * Match Shipment/Receipt to Invoice
-	 */
-	public int getM_MatchPO_ID();
-
-
-
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

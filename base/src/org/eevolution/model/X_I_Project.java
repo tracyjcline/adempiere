@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Project
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_I_Project extends PO implements I_I_Project, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171215L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_I_Project (Properties ctx, int I_Project_ID, String trxName)
@@ -42,25 +42,7 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
       super (ctx, I_Project_ID, trxName);
       /** if (I_Project_ID == 0)
         {
-			setC_Currency_ID (0);
-			setCommittedAmt (Env.ZERO);
-			setCommittedQty (Env.ZERO);
-			setInvoicedAmt (Env.ZERO);
-			setInvoicedQty (Env.ZERO);
 			setI_Project_ID (0);
-			setIsCommitCeiling (false);
-			setIsCommitment (false);
-			setIsSummary (false);
-			setPlannedAmt (Env.ZERO);
-			setPlannedMarginAmt (Env.ZERO);
-			setPlannedQty (Env.ZERO);
-			setProcessed (false);
-			setProjectBalanceAmt (Env.ZERO);
-			setProjectLineLevel (null);
-// P
-			setProjInvoiceRule (null);
-// -
-			setValue (null);
         } */
     }
 
@@ -201,6 +183,11 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_Address4);
 	}
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getAD_OrgTrx_ID(), get_TrxName());	}
 
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
@@ -1064,7 +1051,7 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 	  */
 	public void setInvoicedAmt (BigDecimal InvoicedAmt)
 	{
-		set_ValueNoCheck (COLUMNNAME_InvoicedAmt, InvoicedAmt);
+		set_Value (COLUMNNAME_InvoicedAmt, InvoicedAmt);
 	}
 
 	/** Get Invoiced Amount.
@@ -1084,7 +1071,7 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 	  */
 	public void setInvoicedQty (BigDecimal InvoicedQty)
 	{
-		set_ValueNoCheck (COLUMNNAME_InvoicedQty, InvoicedQty);
+		set_Value (COLUMNNAME_InvoicedQty, InvoicedQty);
 	}
 
 	/** Get Quantity Invoiced .
@@ -1564,7 +1551,7 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 	  */
 	public void setProjectBalanceAmt (BigDecimal ProjectBalanceAmt)
 	{
-		set_ValueNoCheck (COLUMNNAME_ProjectBalanceAmt, ProjectBalanceAmt);
+		set_Value (COLUMNNAME_ProjectBalanceAmt, ProjectBalanceAmt);
 	}
 
 	/** Get Project Balance.

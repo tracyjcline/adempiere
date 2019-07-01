@@ -45,9 +45,12 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.spin.util.AttachmentUtil;
+import org.spin.util.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -119,6 +122,8 @@ public class MArchive extends X_AD_Archive {
 	private Integer m_inflated = null;
 
 	private Integer m_deflated = null;
+	/**	Binary Data					*/
+	private byte[]			data = null;
 
 	/***************************************************************************
 	 * Standard Constructor
@@ -226,10 +231,23 @@ public class MArchive extends X_AD_Archive {
 	} // toString
 
 	public byte[] getBinaryData() {
-		if (isStoreArchiveOnFileSystem) {
-			return getBinaryDataFromFileSystem();
+		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
+			try {
+				data = AttachmentUtil.getInstance()
+						.clear()
+						.withArchiveId(getAD_Archive_ID())
+						.withClientId(getAD_Client_ID())
+						.getAttachment();
+			} catch (Exception e) {
+				log.warning("Error loading archive: " + e.getLocalizedMessage());
+			}
+			return data;
+		} else {
+			if (isStoreArchiveOnFileSystem) {
+				return getBinaryDataFromFileSystem();
+			}
+			return getBinaryDataFromDB();
 		}
-		return getBinaryDataFromDB();
 	}
 
 	/**
@@ -246,9 +264,11 @@ public class MArchive extends X_AD_Archive {
 			return null;
 		}
 
-		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
 		try {
+			//	Add default features
+			XMLUtils.setDefaultFeatures(factory);
 			final DocumentBuilder builder = factory.newDocumentBuilder();
 			final Document document = builder.parse(new ByteArrayInputStream(data));
 			final NodeList entries = document.getElementsByTagName("entry");
@@ -381,10 +401,14 @@ public class MArchive extends X_AD_Archive {
 	 *            inflated data
 	 */
 	public void setBinaryData(byte[] inflatedData) {
-		if (isStoreArchiveOnFileSystem) {
-			saveBinaryDataIntoFileSystem(inflatedData);
+		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
+			data  = inflatedData;
 		} else {
-			saveBinaryDataIntoDB(inflatedData);
+			if (isStoreArchiveOnFileSystem) {
+				saveBinaryDataIntoFileSystem(inflatedData);
+			} else {
+				saveBinaryDataIntoDB(inflatedData);
+			}
 		}
 	}
 
@@ -407,9 +431,11 @@ public class MArchive extends X_AD_Archive {
 				throw new IllegalArgumentException("unable to save MArchive");
 			}
 		}
-		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		BufferedOutputStream out = null;
 		try {
+			//	Add default features
+			XMLUtils.setDefaultFeatures(factory);
 			// create destination folder
 			final File destFolder = new File(m_archivePathRoot + File.separator
 					+ getArchivePathSnippet());
@@ -438,7 +464,9 @@ public class MArchive extends X_AD_Archive {
 			final Source source = new DOMSource(document);
 			final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			final Result result = new StreamResult(bos);
-			final Transformer xformer = TransformerFactory.newInstance().newTransformer();
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			XMLUtils.setDefaultFeatures(transformerFactory);
+			final Transformer xformer = transformerFactory.newTransformer();
 			xformer.transform(source, result);
 			final byte[] xmlData = bos.toByteArray();
 			log.fine(bos.toString());
@@ -552,22 +580,26 @@ public class MArchive extends X_AD_Archive {
 		// path = path + this.get_ID() + ".pdf";
 		return path;
 	}
-
-	/**
-	 * Before Save
-	 * 
-	 * @param newRecord
-	 *            new
-	 * @return true if can be saved
-	 */
-	protected boolean beforeSave(boolean newRecord) {
-		// Binary Data is Mandatory
-		byte[] data = super.getBinaryData();
-		if (data == null || data.length == 0)
-			return false;
-		//
-		log.fine(toString());
-		return true;
-	} // beforeSave
+	
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		//	Save from external
+		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
+			try {
+				AttachmentUtil.getInstance()
+					.clear()
+					.withArchiveId(getAD_Archive_ID())
+					.withFileName(getName() + ".pdf")
+					.withDescription(getDescription())
+					.withData(data)
+					.withTansactionName(get_TrxName())
+					.saveAttachment();
+			} catch (Exception e) {
+				throw new AdempiereException(e);
+			}
+		}
+		data = null;
+		return super.afterSave(newRecord, success);
+	}
 
 } // MArchive

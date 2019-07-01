@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_StandardRequest
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.2
  */
 public interface I_R_StandardRequest 
 {
@@ -214,7 +214,7 @@ public interface I_R_StandardRequest
 	  */
 	public int getR_RequestRelated_ID();
 
-	public org.compiere.model.I_R_Request getR_RequestRelated() throws RuntimeException;
+	public org.compiere.model.I_R_StandardRequest getR_RequestRelated() throws RuntimeException;
 
     /** Column name R_RequestType_ID */
     public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";

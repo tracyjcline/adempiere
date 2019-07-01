@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for DD_TransportUnit
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_DD_TransportUnit extends PO implements I_DD_TransportUnit, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_DD_TransportUnit (Properties ctx, int DD_TransportUnit_ID, String trxName)
@@ -41,8 +41,8 @@ public class X_DD_TransportUnit extends PO implements I_DD_TransportUnit, I_Pers
       super (ctx, DD_TransportUnit_ID, trxName);
       /** if (DD_TransportUnit_ID == 0)
         {
-			setDD_TransportUnitType_ID (0);
 			setDD_TransportUnit_ID (0);
+			setDD_TransportUnitType_ID (0);
 			setDimension_UOM_ID (0);
 			setName (null);
 			setTransportStatus (null);
@@ -79,6 +79,34 @@ public class X_DD_TransportUnit extends PO implements I_DD_TransportUnit, I_Pers
       return sb.toString();
     }
 
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException
+    {
+		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
+
+	/** Set Fixed Asset.
+		@param A_Asset_ID 
+		Fixed Asset used internally or by customers
+	  */
+	public void setA_Asset_ID (int A_Asset_ID)
+	{
+		if (A_Asset_ID < 1) 
+			set_Value (COLUMNNAME_A_Asset_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+	}
+
+	/** Get Fixed Asset.
+		@return Fixed Asset used internally or by customers
+	  */
+	public int getA_Asset_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Image.
 		@param AD_Image_ID 
 		Image or Icon
@@ -97,34 +125,6 @@ public class X_DD_TransportUnit extends PO implements I_DD_TransportUnit, I_Pers
 	public int getAD_Image_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Image_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException
-    {
-		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
-			.getPO(getA_Asset_ID(), get_TrxName());	}
-
-	/** Set Asset.
-		@param A_Asset_ID 
-		Asset used internally or by customers
-	  */
-	public void setA_Asset_ID (int A_Asset_ID)
-	{
-		if (A_Asset_ID < 1) 
-			set_Value (COLUMNNAME_A_Asset_ID, null);
-		else 
-			set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
-	}
-
-	/** Get Asset.
-		@return Asset used internally or by customers
-	  */
-	public int getA_Asset_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -203,6 +203,26 @@ public class X_DD_TransportUnit extends PO implements I_DD_TransportUnit, I_Pers
 		return ii.intValue();
 	}
 
+	/** Set Transport Unit.
+		@param DD_TransportUnit_ID Transport Unit	  */
+	public void setDD_TransportUnit_ID (int DD_TransportUnit_ID)
+	{
+		if (DD_TransportUnit_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_TransportUnit_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_TransportUnit_ID, Integer.valueOf(DD_TransportUnit_ID));
+	}
+
+	/** Get Transport Unit.
+		@return Transport Unit	  */
+	public int getDD_TransportUnit_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_TransportUnit_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_DD_TransportUnitType getDD_TransportUnitType() throws RuntimeException
     {
 		return (org.eevolution.model.I_DD_TransportUnitType)MTable.get(getCtx(), org.eevolution.model.I_DD_TransportUnitType.Table_Name)
@@ -223,26 +243,6 @@ public class X_DD_TransportUnit extends PO implements I_DD_TransportUnit, I_Pers
 	public int getDD_TransportUnitType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DD_TransportUnitType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Transport Unit.
-		@param DD_TransportUnit_ID Transport Unit	  */
-	public void setDD_TransportUnit_ID (int DD_TransportUnit_ID)
-	{
-		if (DD_TransportUnit_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_DD_TransportUnit_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_DD_TransportUnit_ID, Integer.valueOf(DD_TransportUnit_ID));
-	}
-
-	/** Get Transport Unit.
-		@return Transport Unit	  */
-	public int getDD_TransportUnit_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_TransportUnit_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -489,23 +489,6 @@ public class X_DD_TransportUnit extends PO implements I_DD_TransportUnit, I_Pers
 		return bd;
 	}
 
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
-	}
-
 	/** Set Unladen Weight.
 		@param UnladenWeight Unladen Weight	  */
 	public void setUnladenWeight (BigDecimal UnladenWeight)
@@ -521,6 +504,23 @@ public class X_DD_TransportUnit extends PO implements I_DD_TransportUnit, I_Pers
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	/** Set Search Key.

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Depreciation_Workfile
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.2
  */
 public interface I_A_Depreciation_Workfile 
 {
@@ -40,27 +40,6 @@ public interface I_A_Depreciation_Workfile
     BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
-
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name A_Accumulated_Depr */
     public static final String COLUMNNAME_A_Accumulated_Depr = "A_Accumulated_Depr";
@@ -83,22 +62,26 @@ public interface I_A_Depreciation_Workfile
     /** Column name A_Asset_Cost */
     public static final String COLUMNNAME_A_Asset_Cost = "A_Asset_Cost";
 
-	/** Set Asset Cost	  */
+	/** Set Fixed Asset Cost.
+	  * Cost of acquisition of the Fixed Asset
+	  */
 	public void setA_Asset_Cost (BigDecimal A_Asset_Cost);
 
-	/** Get Asset Cost	  */
+	/** Get Fixed Asset Cost.
+	  * Cost of acquisition of the Fixed Asset
+	  */
 	public BigDecimal getA_Asset_Cost();
 
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
 
-	/** Set Asset.
-	  * Asset used internally or by customers
+	/** Set Fixed Asset.
+	  * Fixed Asset used internally or by customers
 	  */
 	public void setA_Asset_ID (int A_Asset_ID);
 
-	/** Get Asset.
-	  * Asset used internally or by customers
+	/** Get Fixed Asset.
+	  * Fixed Asset used internally or by customers
 	  */
 	public int getA_Asset_ID();
 
@@ -185,14 +168,39 @@ public interface I_A_Depreciation_Workfile
 	/** Get Current Period	  */
 	public int getA_Current_Period();
 
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
     /** Column name A_Depreciation_Workfile_ID */
     public static final String COLUMNNAME_A_Depreciation_Workfile_ID = "A_Depreciation_Workfile_ID";
 
-	/** Set A_Depreciation_Workfile_ID	  */
+	/** Set Fixed Asset Balances.
+	  * Fixed Asset Balances
+	  */
 	public void setA_Depreciation_Workfile_ID (int A_Depreciation_Workfile_ID);
 
-	/** Get A_Depreciation_Workfile_ID	  */
+	/** Get Fixed Asset Balances.
+	  * Fixed Asset Balances
+	  */
 	public int getA_Depreciation_Workfile_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name A_Expense_SL */
     public static final String COLUMNNAME_A_Expense_SL = "A_Expense_SL";
@@ -289,10 +297,14 @@ public interface I_A_Depreciation_Workfile
     /** Column name A_QTY_Current */
     public static final String COLUMNNAME_A_QTY_Current = "A_QTY_Current";
 
-	/** Set Current Qty	  */
+	/** Set Fixed Asset Current Qty.
+	  * Fixed Asset Current Quantity
+	  */
 	public void setA_QTY_Current (BigDecimal A_QTY_Current);
 
-	/** Get Current Qty	  */
+	/** Get Fixed Asset Current Qty.
+	  * Fixed Asset Current Quantity
+	  */
 	public BigDecimal getA_QTY_Current();
 
     /** Column name A_Salvage_Value */
@@ -303,6 +315,19 @@ public interface I_A_Depreciation_Workfile
 
 	/** Get Asset Salvage Value	  */
 	public BigDecimal getA_Salvage_Value();
+
+    /** Column name AssetDepreciationDate */
+    public static final String COLUMNNAME_AssetDepreciationDate = "AssetDepreciationDate";
+
+	/** Set Asset Depreciation Date.
+	  * Date of last depreciation
+	  */
+	public void setAssetDepreciationDate (Timestamp AssetDepreciationDate);
+
+	/** Get Asset Depreciation Date.
+	  * Date of last depreciation
+	  */
+	public Timestamp getAssetDepreciationDate();
 
     /** Column name A_Tip_Finantare */
     public static final String COLUMNNAME_A_Tip_Finantare = "A_Tip_Finantare";
@@ -334,19 +359,6 @@ public interface I_A_Depreciation_Workfile
 
 	/** Get Third contribution	  */
 	public BigDecimal getA_Valoare_Tert();
-
-    /** Column name AssetDepreciationDate */
-    public static final String COLUMNNAME_AssetDepreciationDate = "AssetDepreciationDate";
-
-	/** Set Asset Depreciation Date.
-	  * Date of last depreciation
-	  */
-	public void setAssetDepreciationDate (Timestamp AssetDepreciationDate);
-
-	/** Get Asset Depreciation Date.
-	  * Date of last depreciation
-	  */
-	public Timestamp getAssetDepreciationDate();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -451,19 +463,6 @@ public interface I_A_Depreciation_Workfile
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -523,4 +522,17 @@ public interface I_A_Depreciation_Workfile
 
 	/** Get Use Life - Years (fiscal)	  */
 	public int getUseLifeYears_F();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

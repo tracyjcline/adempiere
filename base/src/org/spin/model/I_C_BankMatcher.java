@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BankMatcher
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.2
  */
 public interface I_C_BankMatcher 
 {
@@ -81,10 +81,10 @@ public interface I_C_BankMatcher
     /** Column name C_BankMatcher_ID */
     public static final String COLUMNNAME_C_BankMatcher_ID = "C_BankMatcher_ID";
 
-	/** Set Bank Matcher ID	  */
+	/** Set Bank Matcher	  */
 	public void setC_BankMatcher_ID (int C_BankMatcher_ID);
 
-	/** Get Bank Matcher ID	  */
+	/** Get Bank Matcher	  */
 	public int getC_BankMatcher_ID();
 
     /** Column name C_BankStatementMatcher_ID */

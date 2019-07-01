@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Employee
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_HR_Employee (Properties ctx, int HR_Employee_ID, String trxName)
@@ -77,6 +77,11 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getAD_OrgTrx_ID(), get_TrxName());	}
 
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
@@ -213,6 +218,23 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Validation code.
+		@param Code 
+		Validation Code
+	  */
+	public void setCode (String Code)
+	{
+		set_Value (COLUMNNAME_Code, Code);
+	}
+
+	/** Get Validation code.
+		@return Validation Code
+	  */
+	public String getCode () 
+	{
+		return (String)get_Value(COLUMNNAME_Code);
+	}
+
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
@@ -267,23 +289,6 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Validation code.
-		@param Code 
-		Validation Code
-	  */
-	public void setCode (String Code)
-	{
-		set_Value (COLUMNNAME_Code, Code);
-	}
-
-	/** Get Validation code.
-		@return Validation Code
-	  */
-	public String getCode () 
-	{
-		return (String)get_Value(COLUMNNAME_Code);
 	}
 
 	/** Set Daily Salary.
@@ -500,6 +505,26 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Payroll Employee.
+		@param HR_Employee_ID Payroll Employee	  */
+	public void setHR_Employee_ID (int HR_Employee_ID)
+	{
+		if (HR_Employee_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, Integer.valueOf(HR_Employee_ID));
+	}
+
+	/** Get Payroll Employee.
+		@return Payroll Employee	  */
+	public int getHR_Employee_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_EmployeeType getHR_EmployeeType() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_EmployeeType)MTable.get(getCtx(), org.eevolution.model.I_HR_EmployeeType.Table_Name)
@@ -523,26 +548,6 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 	public int getHR_EmployeeType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_EmployeeType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Payroll Employee.
-		@param HR_Employee_ID Payroll Employee	  */
-	public void setHR_Employee_ID (int HR_Employee_ID)
-	{
-		if (HR_Employee_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, Integer.valueOf(HR_Employee_ID));
-	}
-
-	/** Get Payroll Employee.
-		@return Payroll Employee	  */
-	public int getHR_Employee_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -604,6 +609,31 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Job)MTable.get(getCtx(), org.eevolution.model.I_HR_Job.Table_Name)
+			.getPO(getHR_Job_ID(), get_TrxName());	}
+
+	/** Set Payroll Job.
+		@param HR_Job_ID Payroll Job	  */
+	public void setHR_Job_ID (int HR_Job_ID)
+	{
+		if (HR_Job_ID < 1) 
+			set_Value (COLUMNNAME_HR_Job_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Job_ID, Integer.valueOf(HR_Job_ID));
+	}
+
+	/** Get Payroll Job.
+		@return Payroll Job	  */
+	public int getHR_Job_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Job_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_JobOpening getHR_JobOpening() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_JobOpening)MTable.get(getCtx(), org.eevolution.model.I_HR_JobOpening.Table_Name)
@@ -655,31 +685,6 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 	public int getHR_JobType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_JobType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException
-    {
-		return (org.eevolution.model.I_HR_Job)MTable.get(getCtx(), org.eevolution.model.I_HR_Job.Table_Name)
-			.getPO(getHR_Job_ID(), get_TrxName());	}
-
-	/** Set Payroll Job.
-		@param HR_Job_ID Payroll Job	  */
-	public void setHR_Job_ID (int HR_Job_ID)
-	{
-		if (HR_Job_ID < 1) 
-			set_Value (COLUMNNAME_HR_Job_ID, null);
-		else 
-			set_Value (COLUMNNAME_HR_Job_ID, Integer.valueOf(HR_Job_ID));
-	}
-
-	/** Get Payroll Job.
-		@return Payroll Job	  */
-	public int getHR_Job_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Job_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1077,6 +1082,11 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_NationalCode);
 	}
+
+	public org.compiere.model.I_C_Country getNationality() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Country)MTable.get(getCtx(), org.compiere.model.I_C_Country.Table_Name)
+			.getPO(getNationality_ID(), get_TrxName());	}
 
 	/** Set Nationality.
 		@param Nationality_ID 

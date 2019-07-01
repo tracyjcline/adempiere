@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Window
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.2
  */
 public interface I_AD_Window 
 {
@@ -63,6 +63,21 @@ public interface I_AD_Window
 	public int getAD_Color_ID();
 
 	public org.compiere.model.I_AD_Color getAD_Color() throws RuntimeException;
+
+    /** Column name AD_ContextInfo_ID */
+    public static final String COLUMNNAME_AD_ContextInfo_ID = "AD_ContextInfo_ID";
+
+	/** Set Context Info.
+	  * Context Info Maintaining
+	  */
+	public void setAD_ContextInfo_ID (int AD_ContextInfo_ID);
+
+	/** Get Context Info.
+	  * Context Info Maintaining
+	  */
+	public int getAD_ContextInfo_ID();
+
+	public org.spin.model.I_AD_ContextInfo getAD_ContextInfo() throws RuntimeException;
 
     /** Column name AD_Image_ID */
     public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
@@ -236,19 +251,6 @@ public interface I_AD_Window
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -264,6 +266,32 @@ public interface I_AD_Window
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
+    /** Column name WindowType */
+    public static final String COLUMNNAME_WindowType = "WindowType";
+
+	/** Set WindowType.
+	  * Type or classification of a Window
+	  */
+	public void setWindowType (String WindowType);
+
+	/** Get WindowType.
+	  * Type or classification of a Window
+	  */
+	public String getWindowType();
 
     /** Column name WinHeight */
     public static final String COLUMNNAME_WinHeight = "WinHeight";
@@ -282,17 +310,4 @@ public interface I_AD_Window
 
 	/** Get Window Width	  */
 	public int getWinWidth();
-
-    /** Column name WindowType */
-    public static final String COLUMNNAME_WindowType = "WindowType";
-
-	/** Set WindowType.
-	  * Type or classification of a Window
-	  */
-	public void setWindowType (String WindowType);
-
-	/** Get WindowType.
-	  * Type or classification of a Window
-	  */
-	public String getWindowType();
 }

@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for T_ReportStatement
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180824L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_T_ReportStatement (Properties ctx, int T_ReportStatement_ID, String trxName)
@@ -82,21 +82,21 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 			.getPO(getAccount_ID(), get_TrxName());	}
 
 	/** Set Account.
-		@param Account_ID
+		@param Account_ID 
 		Account used
 	  */
 	public void setAccount_ID (int Account_ID)
 	{
-		if (Account_ID < 1)
+		if (Account_ID < 1) 
 			set_Value (COLUMNNAME_Account_ID, null);
-		else
+		else 
 			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
 	}
 
 	/** Get Account.
 		@return Account used
 	  */
-	public int getAccount_ID ()
+	public int getAccount_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
 		if (ii == null)
@@ -113,7 +113,7 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 
 	/** Get Account Name.
 		@return Account Name	  */
-	public String getAccountName ()
+	public String getAccountName () 
 	{
 		return (String)get_Value(COLUMNNAME_AccountName);
 	}
@@ -133,7 +133,7 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 	/** Memo = M */
 	public static final String ACCOUNTTYPE_Memo = "M";
 	/** Set Account Type.
-		@param AccountType
+		@param AccountType 
 		Indicates the type of account
 	  */
 	public void setAccountType (String AccountType)
@@ -145,13 +145,13 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 	/** Get Account Type.
 		@return Indicates the type of account
 	  */
-	public String getAccountType ()
+	public String getAccountType () 
 	{
 		return (String)get_Value(COLUMNNAME_AccountType);
 	}
 
 	/** Set Account Key.
-		@param AccountValue
+		@param AccountValue 
 		Key of Account Element
 	  */
 	public void setAccountValue (String AccountValue)
@@ -162,7 +162,7 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 	/** Get Account Key.
 		@return Key of Account Element
 	  */
-	public String getAccountValue ()
+	public String getAccountValue () 
 	{
 		return (String)get_Value(COLUMNNAME_AccountValue);
 	}

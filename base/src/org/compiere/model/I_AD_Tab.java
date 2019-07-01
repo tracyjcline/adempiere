@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Tab
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.2
  */
 public interface I_AD_Tab 
 {
@@ -48,6 +48,21 @@ public interface I_AD_Tab
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
+
+    /** Column name AD_Column_ID */
+    public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
+
+	/** Set Column.
+	  * Column in the table
+	  */
+	public void setAD_Column_ID (int AD_Column_ID);
+
+	/** Get Column.
+	  * Column in the table
+	  */
+	public int getAD_Column_ID();
+
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException;
 
     /** Column name AD_ColumnSortOrder_ID */
     public static final String COLUMNNAME_AD_ColumnSortOrder_ID = "AD_ColumnSortOrder_ID";
@@ -79,20 +94,20 @@ public interface I_AD_Tab
 
 	public org.compiere.model.I_AD_Column getAD_ColumnSortYesNo() throws RuntimeException;
 
-    /** Column name AD_Column_ID */
-    public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
+    /** Column name AD_ContextInfo_ID */
+    public static final String COLUMNNAME_AD_ContextInfo_ID = "AD_ContextInfo_ID";
 
-	/** Set Column.
-	  * Column in the table
+	/** Set Context Info.
+	  * Context Info Maintaining
 	  */
-	public void setAD_Column_ID (int AD_Column_ID);
+	public void setAD_ContextInfo_ID (int AD_ContextInfo_ID);
 
-	/** Get Column.
-	  * Column in the table
+	/** Get Context Info.
+	  * Context Info Maintaining
 	  */
-	public int getAD_Column_ID();
+	public int getAD_ContextInfo_ID();
 
-	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException;
+	public org.spin.model.I_AD_ContextInfo getAD_ContextInfo() throws RuntimeException;
 
     /** Column name AD_Image_ID */
     public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
@@ -499,19 +514,6 @@ public interface I_AD_Tab
 	  */
 	public int getTabLevel();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -527,6 +529,19 @@ public interface I_AD_Tab
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name WhereClause */
     public static final String COLUMNNAME_WhereClause = "WhereClause";

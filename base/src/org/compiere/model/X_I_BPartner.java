@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171215L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_I_BPartner (Properties ctx, int I_BPartner_ID, String trxName)
@@ -202,6 +202,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_BirthCountryCode);
 	}
+
+	public org.compiere.model.I_C_Country getBirthCountry() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Country)MTable.get(getCtx(), org.compiere.model.I_C_Country.Table_Name)
+			.getPO(getBirthCountry_ID(), get_TrxName());	}
 
 	/** Set Birth Country.
 		@param BirthCountry_ID 

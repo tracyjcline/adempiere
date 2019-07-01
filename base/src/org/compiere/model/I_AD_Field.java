@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.2
  */
 public interface I_AD_Field 
 {
@@ -68,16 +68,27 @@ public interface I_AD_Field
     public static final String COLUMNNAME_AD_ContextInfo_ID = "AD_ContextInfo_ID";
 
 	/** Set Context Info.
-	  * Context Info Maintainig
+	  * Context Info Maintaining
 	  */
 	public void setAD_ContextInfo_ID (int AD_ContextInfo_ID);
 
 	/** Get Context Info.
-	  * Context Info Maintainig
+	  * Context Info Maintaining
 	  */
 	public int getAD_ContextInfo_ID();
 
 	public org.spin.model.I_AD_ContextInfo getAD_ContextInfo() throws RuntimeException;
+
+    /** Column name AD_FieldDefinition_ID */
+    public static final String COLUMNNAME_AD_FieldDefinition_ID = "AD_FieldDefinition_ID";
+
+	/** Set Field Definition	  */
+	public void setAD_FieldDefinition_ID (int AD_FieldDefinition_ID);
+
+	/** Get Field Definition	  */
+	public int getAD_FieldDefinition_ID();
+
+	public org.spin.model.I_AD_FieldDefinition getAD_FieldDefinition() throws RuntimeException;
 
     /** Column name AD_FieldGroup_ID */
     public static final String COLUMNNAME_AD_FieldGroup_ID = "AD_FieldGroup_ID";
@@ -451,6 +462,19 @@ public interface I_AD_Field
 	  */
 	public String getIsMandatory();
 
+    /** Column name IsQuickEntry */
+    public static final String COLUMNNAME_IsQuickEntry = "IsQuickEntry";
+
+	/** Set Quick Entry.
+	  * Display in Quick Entry Form
+	  */
+	public void setIsQuickEntry (boolean IsQuickEntry);
+
+	/** Get Quick Entry.
+	  * Display in Quick Entry Form
+	  */
+	public boolean isQuickEntry();
+
     /** Column name IsReadOnly */
     public static final String COLUMNNAME_IsReadOnly = "IsReadOnly";
 
@@ -559,19 +583,6 @@ public interface I_AD_Field
 	  */
 	public BigDecimal getSortNo();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -588,16 +599,16 @@ public interface I_AD_Field
 	  */
 	public int getUpdatedBy();
 
-    /** Column name isQuickEntry */
-    public static final String COLUMNNAME_isQuickEntry = "isQuickEntry";
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
 
-	/** Set Quick Entry.
-	  * Display in Quick Entry Form
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
 	  */
-	public void setisQuickEntry (boolean isQuickEntry);
+	public void setUUID (String UUID);
 
-	/** Get Quick Entry.
-	  * Display in Quick Entry Form
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
 	  */
-	public boolean isQuickEntry();
+	public String getUUID();
 }

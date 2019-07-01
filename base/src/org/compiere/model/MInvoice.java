@@ -1050,7 +1050,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 			+ " INNER JOIN C_AllocationHdr ah ON (al.C_AllocationHdr_ID=ah.C_AllocationHdr_ID)"
 			+ " INNER JOIN C_Invoice i ON (al.C_Invoice_ID=i.C_Invoice_ID) "
 			+ "WHERE al.C_Invoice_ID=?"
-			+ " AND ah.IsActive='Y' AND al.IsActive='Y'";
+			+ " AND ah.IsActive='Y'  AND ah.DocStatus IN ('CO','CL') AND al.IsActive='Y'";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
@@ -1740,7 +1740,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 
 					//	MatchPO is created also from MInOut when Invoice exists before Shipment
 					BigDecimal matchQty = invoiceLine.getQtyInvoiced();
-					MMatchPO matchPO = new MMatchPO(invoiceLine , getDateInvoiced(), matchQty);
+					MMatchPO matchPO = new MMatchPO(invoiceLine , getDateInvoiced(), matchQty.multiply(multiplier));
 					matchPO.saveEx();
 					matchOrders.getAndUpdate(record -> record + 1);
 					if (!matchPO.isPosted() && matchPO.getM_InOutLine_ID() > 0) // match po don't post if receipt is not assigned, and it doesn't create avg po record
@@ -2139,7 +2139,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 	{
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
-		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElse(currentDate) : getDateAcct();
+		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElseGet(() -> currentDate) : getDateAcct();
 		Timestamp reversalDateInvoice = isAccrual ? reversalDate : getDateInvoiced();
 		MPeriod.testPeriodOpen(getCtx(), reversalDate , getC_DocType_ID(), getAD_Org_ID());
 		// reverse allocations
@@ -2529,6 +2529,17 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
             CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetailForLandedCostAllocation(allocation);
         }
     }
+
+	public static List<MInvoice> getOfOrder(Properties ctx, int c_order_id, String trxName) {
+		String where =  COLUMNNAME_C_Order_ID+"=?"
+				+ " AND " + COLUMNNAME_DocStatus + " IN ('CO','CL')";
+		List<MInvoice> list = new Query(ctx, Table_Name, where, trxName)
+				.setClient_ID()
+				.setOnlyActiveRecords(true)
+				.setParameters(c_order_id)
+				.list();
+		return list;
+	}
 
 
 

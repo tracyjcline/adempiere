@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_ProjectMemberType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.2
  */
 public interface I_C_ProjectMemberType 
 {
@@ -66,10 +66,14 @@ public interface I_C_ProjectMemberType
     /** Column name C_ProjectMemberType_ID */
     public static final String COLUMNNAME_C_ProjectMemberType_ID = "C_ProjectMemberType_ID";
 
-	/** Set Project Member Type ID	  */
+	/** Set Project Member Type.
+	  * Define the Member Type for a Project
+	  */
 	public void setC_ProjectMemberType_ID (int C_ProjectMemberType_ID);
 
-	/** Get Project Member Type ID	  */
+	/** Get Project Member Type.
+	  * Define the Member Type for a Project
+	  */
 	public int getC_ProjectMemberType_ID();
 
     /** Column name Created */

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_CommissionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.2
  */
 public interface I_C_CommissionLine 
 {
@@ -496,6 +496,8 @@ public interface I_C_CommissionLine
 	  * Organizational entity within client
 	  */
 	public int getOrg_ID();
+
+	public org.compiere.model.I_AD_Org getOrg() throws RuntimeException;
 
     /** Column name PaymentRule */
     public static final String COLUMNNAME_PaymentRule = "PaymentRule";

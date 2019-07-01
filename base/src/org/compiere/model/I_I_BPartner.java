@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.2
  */
 public interface I_I_BPartner 
 {
@@ -167,6 +167,8 @@ public interface I_I_BPartner
 	  * Country of Place of Birth
 	  */
 	public int getBirthCountry_ID();
+
+	public org.compiere.model.I_C_Country getBirthCountry() throws RuntimeException;
 
     /** Column name Birthday */
     public static final String COLUMNNAME_Birthday = "Birthday";

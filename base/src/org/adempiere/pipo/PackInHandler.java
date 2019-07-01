@@ -30,10 +30,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -45,62 +47,27 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
-import org.adempiere.pipo.handler.AdElementHandler;
-import org.adempiere.pipo.handler.BrowseElementHandler;
-import org.adempiere.pipo.handler.BrowseFieldElementHandler;
 import org.adempiere.pipo.handler.CodeSnipitElementHandler;
-import org.adempiere.pipo.handler.ColumnElementHandler;
-import org.adempiere.pipo.handler.CommonTranslationHandler;
 import org.adempiere.pipo.handler.DataElementHandler;
 import org.adempiere.pipo.handler.DistFileElementHandler;
-import org.adempiere.pipo.handler.DynValRuleElementHandler;
 import org.adempiere.pipo.handler.EntityTypeElementHandler;
-import org.adempiere.pipo.handler.FieldElementHandler;
-import org.adempiere.pipo.handler.FieldGroupElementHandler;
-import org.adempiere.pipo.handler.FormAccessElementHandler;
-import org.adempiere.pipo.handler.FormElementHandler;
-import org.adempiere.pipo.handler.ImpFormatElementHandler;
-import org.adempiere.pipo.handler.ImpFormatRowElementHandler;
-import org.adempiere.pipo.handler.MenuElementHandler;
-import org.adempiere.pipo.handler.MessageElementHandler;
+import org.adempiere.pipo.handler.GenericPOHandler;
 import org.adempiere.pipo.handler.ModelValidatorElementHandler;
-import org.adempiere.pipo.handler.OrgRoleElementHandler;
-import org.adempiere.pipo.handler.PreferenceElementHandler;
-import org.adempiere.pipo.handler.PrintFormatElementHandler;
-import org.adempiere.pipo.handler.PrintFormatItemElementHandler;
-import org.adempiere.pipo.handler.PrintPaperElementHandler;
-import org.adempiere.pipo.handler.ProcessAccessElementHandler;
-import org.adempiere.pipo.handler.ProcessElementHandler;
-import org.adempiere.pipo.handler.ProcessParaElementHandler;
-import org.adempiere.pipo.handler.ReferenceElementHandler;
-import org.adempiere.pipo.handler.ReferenceListElementHandler;
-import org.adempiere.pipo.handler.ReferenceTableElementHandler;
-import org.adempiere.pipo.handler.ReportViewColElementHandler;
-import org.adempiere.pipo.handler.ReportViewElementHandler;
-import org.adempiere.pipo.handler.RoleElementHandler;
 import org.adempiere.pipo.handler.SQLStatementElementHandler;
-import org.adempiere.pipo.handler.TabElementHandler;
 import org.adempiere.pipo.handler.TableElementHandler;
-import org.adempiere.pipo.handler.TaskAccessElementHandler;
-import org.adempiere.pipo.handler.TaskElementHandler;
-import org.adempiere.pipo.handler.UserRoleElementHandler;
-import org.adempiere.pipo.handler.ViewColumnElementHandler;
-import org.adempiere.pipo.handler.ViewDefinitionElementHandler;
-import org.adempiere.pipo.handler.ViewElementHandler;
-import org.adempiere.pipo.handler.WindowAccessElementHandler;
-import org.adempiere.pipo.handler.WindowElementHandler;
-import org.adempiere.pipo.handler.WorkflowAccessElementHandler;
 import org.adempiere.pipo.handler.WorkflowElementHandler;
-import org.adempiere.pipo.handler.WorkflowNodeElementHandler;
-import org.adempiere.pipo.handler.WorkflowNodeNextConditionElementHandler;
-import org.adempiere.pipo.handler.WorkflowNodeNextElementHandler;
+import org.compiere.model.I_AD_Column;
+import org.compiere.model.I_AD_Workflow;
+import org.compiere.model.MColumn;
 import org.compiere.model.MSequence;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
+import org.compiere.util.Util;
 import org.compiere.wf.MWFNode;
 import org.compiere.wf.MWorkflow;
+import org.spin.util.XMLUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -127,7 +94,7 @@ public class PackInHandler extends DefaultHandler {
     private String m_UpdateMode = "true";
     private String packageDirectory = null;
     private String m_DatabaseType = "Oracle";
-    private int m_AD_Client_ID = 0;
+    private int clientId = 0;
     private int AD_Package_Imp_ID=0;
 	private int AD_Package_Imp_Inst_ID=0;
     private CLogger log = CLogger.getCLogger(PackInHandler.class);
@@ -140,15 +107,15 @@ public class PackInHandler extends DefaultHandler {
 	private String logDate = null;
 	private String PK_Status = "Installing";
 	// transaction name 
-	private	String 		m_trxName = null;
+	private	String 		trxName = null;
 	private Properties  m_ctx = null;
 
 	private Map<String, ElementHandler>handlers = null;
-	private List<Element> menus = new ArrayList<Element>();
+//	private List<Element> menus = new ArrayList<Element>();
 	private List<Element> workflow = new ArrayList<Element>();
-	private List<Element> nodes = new ArrayList<Element>();
 	private List<DeferEntry> defer = new ArrayList<DeferEntry>();
 	private Stack<Element> stack = new Stack<Element>();
+	private List<Element> columns = new ArrayList<Element>();
 	private PackIn packIn;
 
 	private void init() throws SAXException {
@@ -172,7 +139,8 @@ public class PackInHandler extends DefaultHandler {
 		}
 		streamResult_document = new StreamResult(fw_document);		
 		tf_document = (SAXTransformerFactory) SAXTransformerFactory.newInstance();	
-		
+		//	Default features
+		XMLUtils.setDefaultFeatures(tf_document);
 		try {
 			logDocument = tf_document.newTransformerHandler();
 		} catch (TransformerConfigurationException e2) {
@@ -190,10 +158,10 @@ public class PackInHandler extends DefaultHandler {
 		else
 			tmp.putAll(Env.getCtx());
 		m_ctx = tmp;
-		if (m_trxName == null)
-			m_trxName = Trx.createTrxName("PackIn");
+		if (trxName == null)
+			trxName = Trx.createTrxName("PackIn");
 		
-		m_AD_Client_ID = Env.getContextAsInt(m_ctx, "AD_Client_ID");
+		clientId = Env.getContextAsInt(m_ctx, "AD_Client_ID");
 		
 		Start_Doc=1;
 	}
@@ -201,59 +169,19 @@ public class PackInHandler extends DefaultHandler {
 	private void setupHandlers() {
 		DataElementHandler dataHandler = new DataElementHandler();
     	handlers = new HashMap<String, ElementHandler>();
-    	handlers.put("menu", new MenuElementHandler());
     	handlers.put("adempieredata", dataHandler);
+    	handlers.put(GenericPOHandler.TAG_Name + "_" + I_AD_Workflow.Table_Name, new WorkflowElementHandler());
     	handlers.put("data", dataHandler);
     	handlers.put("dtable", dataHandler);
     	handlers.put("drow", dataHandler);
     	handlers.put("dcolumn", dataHandler);
-    	handlers.put("window", new WindowElementHandler());
-    	handlers.put("windowaccess", new WindowAccessElementHandler());
-    	handlers.put("preference", new PreferenceElementHandler());
-    	handlers.put("tab", new TabElementHandler());
-    	handlers.put("field", new FieldElementHandler());
-    	handlers.put("view", new ViewElementHandler());
-    	handlers.put("viewdefinition", new ViewDefinitionElementHandler());
-    	handlers.put("viewcolumn", new ViewColumnElementHandler());
-    	handlers.put("browse", new BrowseElementHandler());
-    	handlers.put("browsefield", new BrowseFieldElementHandler());
-    	handlers.put("process", new ProcessElementHandler());
-    	handlers.put("processpara", new ProcessParaElementHandler());
-    	handlers.put("processaccess", new ProcessAccessElementHandler());
-    	handlers.put("message", new MessageElementHandler());
-    	handlers.put("dynvalrule", new DynValRuleElementHandler());
-    	handlers.put("workflow", new WorkflowElementHandler());
-    	handlers.put("workflowNode", new WorkflowNodeElementHandler());
-    	handlers.put("workflowNodeNext", new WorkflowNodeNextElementHandler());
-    	handlers.put("workflowNodeNextCondition", new WorkflowNodeNextConditionElementHandler());
-    	handlers.put("workflowaccess", new WorkflowAccessElementHandler());
-    	handlers.put("table", new TableElementHandler());
-    	handlers.put("column", new ColumnElementHandler());
-    	handlers.put("role", new RoleElementHandler());
-    	handlers.put("userrole", new UserRoleElementHandler());
-    	handlers.put("orgrole", new OrgRoleElementHandler());
-    	handlers.put("form", new FormElementHandler());
-    	handlers.put("formaccess", new FormAccessElementHandler());
-    	handlers.put("task", new TaskElementHandler());
-    	handlers.put("taskaccess", new TaskAccessElementHandler());
-    	handlers.put("impformat", new ImpFormatElementHandler());
-    	handlers.put("impformatrow", new ImpFormatRowElementHandler());
+    	handlers.put(GenericPOHandler.Column_TAG_Name, new TableElementHandler());
+    	handlers.put(GenericPOHandler.TAG_Name, new GenericPOHandler());
     	handlers.put("codesnipit", new CodeSnipitElementHandler());
     	handlers.put("distfile", new DistFileElementHandler());
-    	handlers.put("reportview", new ReportViewElementHandler());
-    	handlers.put("reportviewcol", new ReportViewColElementHandler());
-    	handlers.put("printformat", new PrintFormatElementHandler());
-    	handlers.put("printformatitem", new PrintFormatItemElementHandler());
     	handlers.put("SQLStatement", new SQLStatementElementHandler());
-    	handlers.put("reference", new ReferenceElementHandler());
-    	handlers.put("referencelist", new ReferenceListElementHandler());
-    	handlers.put("referencetable", new ReferenceTableElementHandler());
-    	handlers.put("fieldgroup", new FieldGroupElementHandler());
-    	handlers.put("element", new AdElementHandler());
-    	handlers.put("trl", new CommonTranslationHandler());
     	handlers.put(ModelValidatorElementHandler.TAG_Name, new ModelValidatorElementHandler());
     	handlers.put(EntityTypeElementHandler.TAG_Name, new EntityTypeElementHandler());
-    	handlers.put(PrintPaperElementHandler.TAG_Name, new PrintPaperElementHandler());
 	}
 	
     /**
@@ -328,7 +256,7 @@ public class PackInHandler extends DefaultHandler {
 			String sql2 = "SELECT AD_PACKAGE_IMP_INST_ID FROM AD_PACKAGE_IMP_INST WHERE NAME ="
 				+	"'" +  atts.getValue("Name")
 				+	"' AND PK_VERSION ='" +  atts.getValue("Version") + "'";		
-			int PK_preInstalled = DB.getSQLValue(m_trxName,sql2); 
+			int PK_preInstalled = DB.getSQLValue(trxName,sql2); 
 			
 			AD_Package_Imp_ID = DB.getNextID (Env.getAD_Client_ID(m_ctx), "AD_Package_Imp", null);
 			
@@ -355,7 +283,7 @@ public class PackInHandler extends DefaultHandler {
 					.append( "', '" + PK_Status )
 					.append( "')" );
 			Env.getAD_User_ID(m_ctx);
-			int no = DB.executeUpdate (sqlB.toString(), m_trxName);		
+			int no = DB.executeUpdate (sqlB.toString(), trxName);		
 			if (no == -1)
 				log.info("Insert to Package import failed");
 			
@@ -387,7 +315,7 @@ public class PackInHandler extends DefaultHandler {
 						.append( "')" );
 				
 				Env.getAD_User_ID(m_ctx);
-				no = DB.executeUpdate (sqlB.toString(), m_trxName);		
+				no = DB.executeUpdate (sqlB.toString(), trxName);		
 				if (no == -1)
 					log.info("Insert to Package List import failed");
 			}
@@ -397,48 +325,48 @@ public class PackInHandler extends DefaultHandler {
 				sqlB = new StringBuffer ("UPDATE AD_Package_Imp_Inst "
 						+ "SET PK_Status = '" + PK_Status 
 						+ "' WHERE AD_Package_Imp_Inst_ID = "+AD_Package_Imp_Inst_ID);		
-				no = DB.executeUpdate (sqlB.toString(), m_trxName);
+				no = DB.executeUpdate (sqlB.toString(), trxName);
 				if (no == -1)
 					log.info("Update to package summary failed");
 			}
 			Env.setContext(m_ctx, "AD_Package_Imp_ID", AD_Package_Imp_ID);
 			Env.setContext(m_ctx, "UpdateMode", m_UpdateMode);
-			Env.setContext(m_ctx, "TrxName", m_trxName);
+			Env.setContext(m_ctx, "TrxName", trxName);
 			Env.setContext(m_ctx, "PackageDirectory", packageDirectory);
 			m_ctx.put("LogDocument", logDocument);
 			m_ctx.put("PackInProcess", packIn);
 		}
-		else if (elementValue.equals("menu")) {
-			//defer
+//		else if (elementValue.startsWith(GenericPOHandler.TAG_Name + "_" + I_AD_Menu.Table_Name)) {
+//			//defer
+//			Element e = new Element(uri, localName, qName, new AttributesImpl(atts));
+//			if (stack.size() > 0)
+//				e.parent = stack.peek();
+//			stack.push(e);
+//			menus.add(e);
+//		}
+//		else {
 			Element e = new Element(uri, localName, qName, new AttributesImpl(atts));
 			if (stack.size() > 0)
 				e.parent = stack.peek();
 			stack.push(e);
-			menus.add(e);
-		}
-		else {
-			Element e = new Element(uri, localName, qName, new AttributesImpl(atts));
-			if (stack.size() > 0)
-				e.parent = stack.peek();
-			stack.push(e);
-			if (elementValue.equals("workflow"))
-			{
+			if (elementValue.startsWith(GenericPOHandler.TAG_Name + "_" + I_AD_Workflow.Table_Name)) {
 				workflow.add(e);
 			}
-			
-			if (elementValue.equals("workflowNode"))
-			{
-				nodes.add(e);
+			if(elementValue.equals(GenericPOHandler.Column_TAG_Name)) {
+				columns.add(e);
 			}
-			
-					
+			//	for generic handler
 			ElementHandler handler = handlers.get(elementValue);
+			if(handler == null
+					&& elementValue.startsWith(GenericPOHandler.TAG_Name)) {
+				handler = new GenericPOHandler();
+			}
 			if (handler != null)
 				handler.startElement(m_ctx, e);
 			if (e.defer) {
 				defer.add(new DeferEntry(e, true));
 			}
-		}	
+//		}	
 	}   // startElement
     
 	/**
@@ -494,7 +422,7 @@ public class PackInHandler extends DefaultHandler {
     					PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(),ResultSet.TYPE_FORWARD_ONLY,
     							ResultSet.CONCUR_UPDATABLE, null);
     					pstmt.executeUpdate();
-    					MSequence.createTableSequence (m_ctx, "AD_Package_Imp", m_trxName);
+    					MSequence.createTableSequence (m_ctx, "AD_Package_Imp", trxName);
     					pstmt.close();
     					pstmt = null;
     				}
@@ -531,7 +459,7 @@ public class PackInHandler extends DefaultHandler {
     					PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(),ResultSet.TYPE_FORWARD_ONLY,
     							ResultSet.CONCUR_UPDATABLE, null);
     					pstmt.executeUpdate();
-    					MSequence.createTableSequence (m_ctx, "AD_Package_Imp_Inst", m_trxName);
+    					MSequence.createTableSequence (m_ctx, "AD_Package_Imp_Inst", trxName);
     					pstmt.close();
     					pstmt = null;
     				}
@@ -565,7 +493,7 @@ public class PackInHandler extends DefaultHandler {
     					PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(),ResultSet.TYPE_FORWARD_ONLY,
     							ResultSet.CONCUR_UPDATABLE, null);
     					pstmt.executeUpdate();
-    					MSequence.createTableSequence (m_ctx, "AD_Package_Imp_Detail", m_trxName);
+    					MSequence.createTableSequence (m_ctx, "AD_Package_Imp_Detail", trxName);
     					pstmt.close();
     					pstmt = null;
     				}
@@ -598,7 +526,7 @@ public class PackInHandler extends DefaultHandler {
     					PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(),ResultSet.TYPE_FORWARD_ONLY,
     							ResultSet.CONCUR_UPDATABLE, null);
     					pstmt.executeUpdate();
-    					MSequence.createTableSequence (m_ctx, "AD_Package_Imp_Backup", m_trxName);
+    					MSequence.createTableSequence (m_ctx, "AD_Package_Imp_Backup", trxName);
     					pstmt.close();
     					pstmt = null;
     				}	
@@ -645,7 +573,7 @@ public class PackInHandler extends DefaultHandler {
     	
     	if (elementValue.equals("adempiereAD")){
     		processDeferElements();
-    		processMenuElements();
+//    		processMenuElements();
     		if (!PK_Status.equals("Completed with errors"))
     			PK_Status = "Completed successfully";
     		
@@ -653,7 +581,7 @@ public class PackInHandler extends DefaultHandler {
     		StringBuffer sqlB = new StringBuffer ("UPDATE AD_Package_Imp "
     				+ "SET PK_Status = '" + PK_Status
     				+ "' WHERE AD_Package_Imp_ID = " + AD_Package_Imp_ID);		
-    		int no = DB.executeUpdate (sqlB.toString(), m_trxName);
+    		int no = DB.executeUpdate (sqlB.toString(), trxName);
     		if (no == -1)
     			log.info("Update to package summary failed");
     		
@@ -661,7 +589,7 @@ public class PackInHandler extends DefaultHandler {
     		sqlB = new StringBuffer ("UPDATE AD_Package_Imp_Inst "
     				+ "SET PK_Status = '" + PK_Status
     				+ "' WHERE AD_Package_Imp_Inst_ID = " + AD_Package_Imp_Inst_ID);		
-    		no = DB.executeUpdate (sqlB.toString(), m_trxName);
+    		no = DB.executeUpdate (sqlB.toString(), trxName);
     		if (no == -1)
     			log.info("Update to package list failed");
     		
@@ -669,70 +597,41 @@ public class PackInHandler extends DefaultHandler {
         	{
         		for (Element e : workflow)
         		{	
-        		Attributes atts = e.attributes;
-        		String workflowName = atts.getValue("Name");
-        		MWorkflow wf = null;
-
-    				int workflow_id =  IDFinder.get_IDWithColumn("AD_Workflow", "Name", workflowName, m_AD_Client_ID, m_trxName);
-    				if(workflow_id > 0)
-    				{
-    					wf = new MWorkflow(m_ctx, workflow_id , m_trxName);
-    					int node_id = 0;
-    					
-    					String name = atts.getValue("ADWorkflowNodeNameID");
-    					if (name != null && name.trim().length() > 0) 
-    					{
-    						MWFNode[] nodes = wf.getNodes(false, m_AD_Client_ID);
-    						
-    						for (MWFNode node : nodes)
-    						{	
-    							if (node.getName().trim().equals(name.trim()))
-    							{
-    								node_id = node.getAD_WF_Node_ID();
-    								wf.setAD_WF_Node_ID(node_id);
-    								if (!wf.save())
-    									System.out.println("Can not save Start Node "+ name +"to Workflow " + workflowName +  " do not exist ");
-    							    break;
-    							}	
+        			Attributes atts = e.attributes;
+        			String workflowUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_Workflow.Table_Name));
+        			MWorkflow workflow = null;
+    				int workflowId = IDFinder.getIdFromUUID(Env.getCtx(), I_AD_Workflow.Table_Name, workflowUuid, clientId, trxName);
+    				if(workflowId > 0) {
+    					workflow = new MWorkflow(m_ctx, workflowId , trxName);
+    					String workFlowNodeUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_Workflow.COLUMNNAME_AD_WF_Node_ID));
+    					if (!Util.isEmpty(workFlowNodeUuid)) {
+    						List<MWFNode> nodesList = Arrays.asList(workflow.getNodes(false, clientId));
+    						Optional<MWFNode> optionalNode = nodesList.stream().filter(node -> node.getUUID().equals(workFlowNodeUuid)).findFirst();
+    						if(optionalNode.isPresent()) {
+    							workflow.setAD_WF_Node_ID(optionalNode.get().getAD_WF_Node_ID());
+								workflow.saveEx();
     						}
-    						
-    						if(node_id == 0)
-    						System.out.println("Unresolved: Start Node to Workflow " + workflowName +  " do not exist ");	
-    						else
-    						break;	
     					}
     					
     				}
         		}
         	}
-        	
-        	if(nodes.size() > 0)
-        	{
-        		for (Element e : nodes)
-        		{
+        	//	
+        	//	Columns
+        	if(columns.size() > 0) {
+        		for (Element e : columns) {
     	    		Attributes atts = e.attributes;
-    	    		String nodeName = atts.getValue("Name");
-    	    		MWFNode node = null;
-    	    		int id =  IDFinder.get_IDWithColumn("AD_WF_Node", "Name", nodeName, m_AD_Client_ID, false, m_trxName);
-    				if(id > 0)
-    				{
-    					node = new MWFNode(m_ctx, id , m_trxName);
-    					String workflowNodeName = atts.getValue("WorkflowNameID").trim();
-    					if (workflowNodeName != null && workflowNodeName.trim().length() > 0) 
-    					{
-    						int workflow_id = IDFinder.get_IDWithColumn("AD_Workflow", "Name",workflowNodeName, m_AD_Client_ID, m_trxName);	
-    						if (workflow_id > 0)
-    						{
-    							node.setWorkflow_ID(workflow_id);
-    							if(!node.save())
-    							{
-    								System.out.println("can not save Workflow " + workflowNodeName );
-    							}
+    	    		String columnUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_Column.Table_Name));
+    	    		int id = IDFinder.getIdFromUUID(m_ctx, I_AD_Column.Table_Name, columnUuid, 0, trxName);
+    				if(id > 0) {
+    					MColumn column = new MColumn(m_ctx, id, trxName);
+    					if(column.getAD_Table_ID() > 0) {
+    						try {
+    							column.syncDatabase();
+    						} catch(Exception ex) {
+    							log.warning("SyncDatabase Error: " + e.getElementValue() + " - " + ex.getLocalizedMessage());
     						}
-    						else
-    							System.out.println("Unresolved: Workflow " + workflowNodeName +  " do not exist ");
     					}
-    						
     				}
         		}
         	}
@@ -768,15 +667,15 @@ public class PackInHandler extends DefaultHandler {
     	
     }   // endElement
     
-    private void processMenuElements() throws SAXException {
-    	ElementHandler handler = handlers.get("menu");
-		if (menus.size() > 0 && handler != null) {
-			for (Element e : menus) {
-				handler.startElement(m_ctx, e);
-				handler.endElement(m_ctx, e);
-			}
-		}
-	}
+//    private void processMenuElements() throws SAXException {
+//    	ElementHandler handler = handlers.get("menu");
+//		if (menus.size() > 0 && handler != null) {
+//			for (Element e : menus) {
+//				handler.startElement(m_ctx, e);
+//				handler.endElement(m_ctx, e);
+//			}
+//		}
+//	}
     
     private void processDeferElements() throws SAXException {
     	if (defer.isEmpty()) return;
@@ -839,7 +738,7 @@ public class PackInHandler extends DefaultHandler {
 
 	// globalqss - add support for trx in 3.1.2
 	public void set_TrxName(String trxName) {
-		m_trxName = trxName;
+		this.trxName = trxName;
 	}
     
     // globalqss - add support for trx in 3.1.2

@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_M_Product extends PO implements I_M_Product, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180928L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_M_Product (Properties ctx, int M_Product_ID, String trxName)
@@ -107,29 +107,57 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
       return sb.toString();
     }
 
-	public org.compiere.model.I_C_LandedCostType getC_LandedCostType() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_LandedCostType)MTable.get(getCtx(), org.compiere.model.I_C_LandedCostType.Table_Name)
-			.getPO(getC_LandedCostType_ID(), get_TrxName());	}
-
-	/** Set LandedCostType ID.
-		@param C_LandedCostType_ID LandedCostType ID	  */
-	public void setC_LandedCostType_ID (int C_LandedCostType_ID)
+	/** Set Classification.
+		@param Classification 
+		Classification for grouping
+	  */
+	public void setClassification (String Classification)
 	{
-		if (C_LandedCostType_ID < 1) 
-			set_Value (COLUMNNAME_C_LandedCostType_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_LandedCostType_ID, Integer.valueOf(C_LandedCostType_ID));
+		set_Value (COLUMNNAME_Classification, Classification);
 	}
 
-	/** Get LandedCostType ID.
-		@return LandedCostType ID	  */
-	public int getC_LandedCostType_ID () 
+	/** Get Classification.
+		@return Classification for grouping
+	  */
+	public String getClassification () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_LandedCostType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_Classification);
+	}
+
+	/** Set Copy From.
+		@param CopyFrom 
+		Copy From Record
+	  */
+	public void setCopyFrom (String CopyFrom)
+	{
+		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
+	}
+
+	/** Get Copy From.
+		@return Copy From Record
+	  */
+	public String getCopyFrom () 
+	{
+		return (String)get_Value(COLUMNNAME_CopyFrom);
+	}
+
+	/** Set Standard Cost.
+		@param CostStandard 
+		Standard Costs
+	  */
+	public void setCostStandard (BigDecimal CostStandard)
+	{
+		throw new IllegalArgumentException ("CostStandard is virtual column");	}
+
+	/** Get Standard Cost.
+		@return Standard Costs
+	  */
+	public BigDecimal getCostStandard () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostStandard);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	public org.compiere.model.I_C_RevenueRecognition getC_RevenueRecognition() throws RuntimeException
@@ -270,59 +298,6 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Classification.
-		@param Classification 
-		Classification for grouping
-	  */
-	public void setClassification (String Classification)
-	{
-		set_Value (COLUMNNAME_Classification, Classification);
-	}
-
-	/** Get Classification.
-		@return Classification for grouping
-	  */
-	public String getClassification () 
-	{
-		return (String)get_Value(COLUMNNAME_Classification);
-	}
-
-	/** Set Copy From.
-		@param CopyFrom 
-		Copy From Record
-	  */
-	public void setCopyFrom (String CopyFrom)
-	{
-		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
-	}
-
-	/** Get Copy From.
-		@return Copy From Record
-	  */
-	public String getCopyFrom () 
-	{
-		return (String)get_Value(COLUMNNAME_CopyFrom);
-	}
-
-	/** Set Standard Cost.
-		@param CostStandard 
-		Standard Costs
-	  */
-	public void setCostStandard (BigDecimal CostStandard)
-	{
-		throw new IllegalArgumentException ("CostStandard is virtual column");	}
-
-	/** Get Standard Cost.
-		@return Standard Costs
-	  */
-	public BigDecimal getCostStandard () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostStandard);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Description.
@@ -1322,62 +1297,6 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_S_ExpenseType getS_ExpenseType() throws RuntimeException
-    {
-		return (org.compiere.model.I_S_ExpenseType)MTable.get(getCtx(), org.compiere.model.I_S_ExpenseType.Table_Name)
-			.getPO(getS_ExpenseType_ID(), get_TrxName());	}
-
-	/** Set Expense Type.
-		@param S_ExpenseType_ID 
-		Expense report type
-	  */
-	public void setS_ExpenseType_ID (int S_ExpenseType_ID)
-	{
-		if (S_ExpenseType_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, Integer.valueOf(S_ExpenseType_ID));
-	}
-
-	/** Get Expense Type.
-		@return Expense report type
-	  */
-	public int getS_ExpenseType_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_ExpenseType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException
-    {
-		return (org.compiere.model.I_S_Resource)MTable.get(getCtx(), org.compiere.model.I_S_Resource.Table_Name)
-			.getPO(getS_Resource_ID(), get_TrxName());	}
-
-	/** Set Resource.
-		@param S_Resource_ID 
-		Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID)
-	{
-		if (S_Resource_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
-	}
-
-	/** Get Resource.
-		@return Resource
-	  */
-	public int getS_Resource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
@@ -1401,6 +1320,34 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	public int getSalesRep_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_SalesRep_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_S_ExpenseType getS_ExpenseType() throws RuntimeException
+    {
+		return (org.compiere.model.I_S_ExpenseType)MTable.get(getCtx(), org.compiere.model.I_S_ExpenseType.Table_Name)
+			.getPO(getS_ExpenseType_ID(), get_TrxName());	}
+
+	/** Set Expense Type.
+		@param S_ExpenseType_ID 
+		Expense report type
+	  */
+	public void setS_ExpenseType_ID (int S_ExpenseType_ID)
+	{
+		if (S_ExpenseType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, Integer.valueOf(S_ExpenseType_ID));
+	}
+
+	/** Get Expense Type.
+		@return Expense report type
+	  */
+	public int getS_ExpenseType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_ExpenseType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1481,6 +1428,34 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	public String getSKU () 
 	{
 		return (String)get_Value(COLUMNNAME_SKU);
+	}
+
+	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException
+    {
+		return (org.compiere.model.I_S_Resource)MTable.get(getCtx(), org.compiere.model.I_S_Resource.Table_Name)
+			.getPO(getS_Resource_ID(), get_TrxName());	}
+
+	/** Set Resource.
+		@param S_Resource_ID 
+		Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID)
+	{
+		if (S_Resource_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+	}
+
+	/** Get Resource.
+		@return Resource
+	  */
+	public int getS_Resource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set UnitsPerPack.

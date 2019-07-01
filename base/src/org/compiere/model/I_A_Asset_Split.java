@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Split
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.2
  */
 public interface I_A_Asset_Split 
 {
@@ -79,6 +79,8 @@ public interface I_A_Asset_Split
 	  * Fixed Asset used internally or by customers
 	  */
 	public int getA_Asset_ID();
+
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name A_Asset_ID_To */
     public static final String COLUMNNAME_A_Asset_ID_To = "A_Asset_ID_To";
@@ -150,6 +152,8 @@ public interface I_A_Asset_Split
 	  * Performing or initiating organization
 	  */
 	public int getAD_OrgTrx_ID();
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException;
 
     /** Column name A_Percent_Original */
     public static final String COLUMNNAME_A_Percent_Original = "A_Percent_Original";
@@ -463,6 +467,19 @@ public interface I_A_Asset_Split
 	  */
 	public boolean isCollectiveAsset();
 
+    /** Column name Posted */
+    public static final String COLUMNNAME_Posted = "Posted";
+
+	/** Set Posted.
+	  * Posting status
+	  */
+	public void setPosted (boolean Posted);
+
+	/** Get Posted.
+	  * Posting status
+	  */
+	public boolean isPosted();
+
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";
 
@@ -488,6 +505,19 @@ public interface I_A_Asset_Split
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name ProcessedOn */
+    public static final String COLUMNNAME_ProcessedOn = "ProcessedOn";
+
+	/** Set Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public void setProcessedOn (BigDecimal ProcessedOn);
+
+	/** Get Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public BigDecimal getProcessedOn();
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";

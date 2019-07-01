@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Window
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_AD_Window extends PO implements I_AD_Window, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_AD_Window (Properties ctx, int AD_Window_ID, String trxName)
@@ -102,6 +102,34 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
 	public int getAD_Color_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Color_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.spin.model.I_AD_ContextInfo getAD_ContextInfo() throws RuntimeException
+    {
+		return (org.spin.model.I_AD_ContextInfo)MTable.get(getCtx(), org.spin.model.I_AD_ContextInfo.Table_Name)
+			.getPO(getAD_ContextInfo_ID(), get_TrxName());	}
+
+	/** Set Context Info.
+		@param AD_ContextInfo_ID 
+		Context Info Maintaining
+	  */
+	public void setAD_ContextInfo_ID (int AD_ContextInfo_ID)
+	{
+		if (AD_ContextInfo_ID < 1) 
+			set_Value (COLUMNNAME_AD_ContextInfo_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_ContextInfo_ID, Integer.valueOf(AD_ContextInfo_ID));
+	}
+
+	/** Get Context Info.
+		@return Context Info Maintaining
+	  */
+	public int getAD_ContextInfo_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ContextInfo_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -347,6 +375,34 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
+	/** WindowType AD_Reference_ID=108 */
+	public static final int WINDOWTYPE_AD_Reference_ID=108;
+	/** Single Record = S */
+	public static final String WINDOWTYPE_SingleRecord = "S";
+	/** Maintain = M */
+	public static final String WINDOWTYPE_Maintain = "M";
+	/** Transaction = T */
+	public static final String WINDOWTYPE_Transaction = "T";
+	/** Query Only = Q */
+	public static final String WINDOWTYPE_QueryOnly = "Q";
+	/** Set WindowType.
+		@param WindowType 
+		Type or classification of a Window
+	  */
+	public void setWindowType (String WindowType)
+	{
+
+		set_Value (COLUMNNAME_WindowType, WindowType);
+	}
+
+	/** Get WindowType.
+		@return Type or classification of a Window
+	  */
+	public String getWindowType () 
+	{
+		return (String)get_Value(COLUMNNAME_WindowType);
+	}
+
 	/** Set Window Height.
 		@param WinHeight Window Height	  */
 	public void setWinHeight (int WinHeight)
@@ -379,33 +435,5 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** WindowType AD_Reference_ID=108 */
-	public static final int WINDOWTYPE_AD_Reference_ID=108;
-	/** Single Record = S */
-	public static final String WINDOWTYPE_SingleRecord = "S";
-	/** Maintain = M */
-	public static final String WINDOWTYPE_Maintain = "M";
-	/** Transaction = T */
-	public static final String WINDOWTYPE_Transaction = "T";
-	/** Query Only = Q */
-	public static final String WINDOWTYPE_QueryOnly = "Q";
-	/** Set WindowType.
-		@param WindowType 
-		Type or classification of a Window
-	  */
-	public void setWindowType (String WindowType)
-	{
-
-		set_Value (COLUMNNAME_WindowType, WindowType);
-	}
-
-	/** Get WindowType.
-		@return Type or classification of a Window
-	  */
-	public String getWindowType () 
-	{
-		return (String)get_Value(COLUMNNAME_WindowType);
 	}
 }

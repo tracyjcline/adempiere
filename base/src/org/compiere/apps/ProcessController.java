@@ -45,6 +45,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.spin.util.ASPUtil;
 
 /**
  *	Controller for Process Parameter, it allow to developer create different views from it
@@ -61,6 +62,7 @@ import org.compiere.util.Util;
  * 		@see FR [ 566 ] Process parameter don't have a parameter like only information</a>
  *	@author Michael Mckay michael.mckay@mckayerp.com
  *		<li>BF [ <a href="https://github.com/adempiere/adempiere/issues/495">495</a> ] Parameter Panel & SmartBrowser criteria do not set gridField value
+ *		<li>BF [ <a href="https://github.com/adempiere/adempiere/issues/2062">2062</a> ] Prevent reuse of AD_PInstance_ID when selecting saved parameters
  *  @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li>FR [ 299 ] Instance saved, is not supported for swing UI
  */
@@ -334,9 +336,13 @@ public abstract class ProcessController extends SmallViewController {
 		log.config("");	
 		//	Create Fields
 		boolean hasFields = false;
-		process = MProcess.get(Env.getCtx(), processInfo.getAD_Process_ID());
+		ASPUtil aspUtil = ASPUtil.getInstance(Env.getCtx());
+		process = aspUtil.getProcess(processInfo.getAD_Process_ID());
 		//	Load Parameter
-		for(MProcessPara para : process.getASPParameters()) {
+		for(MProcessPara para : aspUtil.getProcessParameters(processInfo.getAD_Process_ID())) {
+			if(!para.isActive()) {
+				continue;
+			}
 			hasFields = true;
 			createField(para, windowNo);
 		}
@@ -590,11 +596,24 @@ public abstract class ProcessController extends SmallViewController {
 		try {
 			for (MPInstance instance: savedParams) {
 				if (instance.getName().equals(saveName)) {
-					processInfo.setAD_PInstance_ID(instance.getAD_PInstance_ID());
-					for (MPInstancePara para : instance.getParameters()) {
-						para.deleteEx(true);
-					}
-					//	Save
+					
+					//  #2062 - the current process Instance ID should not be the same as 
+					//  the saved process parameter instance.  Every run of the process
+					//  should use a new instance ID. It is not valid to assign the 
+					//  AD_PInstance_ID using the ID of the saved parameter set.
+					//  processInfo.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+					
+					//  The following actually deletes the parameters of a possibly valid process instance
+					//  for (MPInstancePara para : instance.getParameters()) {
+					//	  para.deleteEx(true);
+					//  }
+					
+					//  What is required is to update the saved parameters.
+					//  We can do that by removing the instance from the savedParams list.
+					//  A new one will be added when the parameters are saved. 
+					deleteInstance(instance);
+					
+					//	Save the "updated" parameters - this will use the current instance or create a new one.
 					errorMsg = saveParameters(saveName);
 					if(errorMsg != null)
 						throw new AdempiereException(errorMsg);
@@ -623,7 +642,8 @@ public abstract class ProcessController extends SmallViewController {
 		try {
 			for (MPInstance instance: savedParams) {
 				if (instance.getName().equals(saveName)) {
-					instance.deleteEx(true);
+					deleteInstance(instance);
+					break;
 				}
 			}
 		} catch(Exception ex) {
@@ -633,7 +653,21 @@ public abstract class ProcessController extends SmallViewController {
 		//	Default Return
 		return errorMsg;
 	}
-			
+
+	/**
+	 * Remove the instance parameters from the list of saved parameters
+	 * @param instance
+	 */
+	private void deleteInstance(MPInstance instance) {
+		
+		if (instance == null)
+			return;
+		
+		instance.setName(null);
+		instance.saveEx();
+		savedParams.remove(instance);
+		
+	}
 	/**
 	 * Get the Window number
 	 * @return

@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_EmployeeDependent
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_HR_EmployeeDependent extends PO implements I_HR_EmployeeDependent, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171009L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_HR_EmployeeDependent (Properties ctx, int HR_EmployeeDependent_ID, String trxName)
